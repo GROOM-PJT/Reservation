@@ -64,10 +64,13 @@ pipeline {
     stage('Docker Image Build') {
     agent any
         steps {
-            // sh "cp ./build/lib/*.jar ./"
-            // dockerImage = docker.build dockerHubRegistry + ":"+${currentBuild.number} 
-            sh "docker.build -t ${dockerHubRegistry}:${currentBuild.number} ./deploy/Dockerfile"
-            sh "docker.build -t ${dockerHubRegistry}:latest ./deploy/Dockerfile"
+            script {
+                dockerImage = docker.build dockerHubRegistry + ":${currentBuild.number}" 
+            }
+            // // sh "cp ./build/lib/*.jar ./"
+            // // dockerImage = docker.build dockerHubRegistry + ":"+${currentBuild.number} 
+            // sh "docker build . -t ${dockerHubRegistry}:${currentBuild.number} ./deploy/Dockerfile"
+            // sh "docker build . -t ${dockerHubRegistry}:latest ./deploy/Dockerfile"
         }
         post {
             failure {
@@ -87,9 +90,9 @@ pipeline {
     stage('Docker Image Push') {
         steps {
             withDockerRegistry([ credentialsId: dockerHubRegistryCredential, url: "" ]) {
-                                sh "docker push ${dockerHubRegistry}:${currentBuild.number}"
-                                sh "docker push ${dockerHubRegistry}:latest"
-
+                                // sh "docker push ${dockerHubRegistry}:${currentBuild.number}"
+                                // sh "docker push ${dockerHubRegistry}:latest"
+                                dockerImage.push()
                                 sleep 20 /* Wait uploading */ 
                             }
         }
