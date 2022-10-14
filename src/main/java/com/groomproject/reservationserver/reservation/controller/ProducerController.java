@@ -25,9 +25,8 @@ public class ProducerController {
 
     @PostMapping("/add")
     public CommonResponse sendMessage(@RequestBody ReservationRequest requset) {
-        System.out.println(requset.toString());
-        log.info("start");
         kafkaService.sendMessage(requset);
+        log.info(requset.toString());
         return responseService.successResult();
     }
 }
