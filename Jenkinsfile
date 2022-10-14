@@ -62,8 +62,9 @@ pipeline {
     }
 
     stage('Docker Image Build') {
-            sh "docker build . -t ${dockerHubRegistry}:${currentBuild.number} ./deploy/Dockerfile"
-            sh "docker build . -t ${dockerHubRegistry}:latest ./deploy/Dockerfile"
+        steps {
+            sh "docker build . -t ./deploy/Dockerfile ${dockerHubRegistry}:${currentBuild.number}"
+            sh "docker build . -t ./deploy/Dockerfile ${dockerHubRegistry}:latest"
         }
         post {
                 failure {
@@ -126,5 +127,5 @@ pipeline {
                 }
         }
     }
+  }
 }
-
