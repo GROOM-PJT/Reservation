@@ -1,8 +1,5 @@
 pipeline {
   agent any
-  tools {
-    maven 'M3'
-  }
   environment {
     dockerHubRegistry = 'jeeseob/groom-devOps-BE-reservation'
     dockerHubRegistryCredential = 'docker-credential'
@@ -11,6 +8,15 @@ pipeline {
 
     stage('Checkout Application Git Branch') {
         steps {
+           script {
+                    SLACK_CHANNEL = "jenkins"
+                    SLACK_SUCCESS_COLOR = "#2C953C";
+                    SLACK_FAIL_COLOR = "#FF3232";
+                    // Git Commit 계정
+                    GIT_COMMIT_AUTHOR = sh(script: "git --no-pager show -s --format=%an ${env.GIT_COMMIT}", returnStdout: true).trim();
+                    // Git Commit 메시지
+                    GIT_COMMIT_MESSAGE = sh(script: "git --no-pager show -s --format=%B ${env.GIT_COMMIT}", returnStdout: true).trim();
+                }
             git credentialsId: 'github-credential',
                 url: 'https://github.com/GROOM-PJT/Reservation.git',
                 branch: 'main'
@@ -21,6 +27,11 @@ pipeline {
                 }
                 success {
                   echo 'Repository clone success !'
+                  slackSend (
+                        channel: SLACK_CHANNEL,
+                        color: SLACK_SUCCESS_COLOR,
+                        message: "==================================================================\n배포 파이프라인이 시작되었습니다.\n${GIT_COMMIT_AUTHOR} - ${GIT_COMMIT_MESSAGE}\n"
+                    )
                 }
         }
     }
@@ -30,8 +41,9 @@ pipeline {
         steps {
             echo 'Bulid Gradle'
             dir ('.'){
+                sh "gradle wrap"
                 sh """
-                ./gradlew build -x test
+                ./gradlew clean build --exclude-task test
                 """
             }
         }
