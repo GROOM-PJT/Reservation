@@ -1,7 +1,7 @@
 pipeline {
   agent any
   environment {
-    dockerHubRegistry = 'jeeseob/groom-devOps-BE-reservation'
+    dockerHubRegistry = 'jeeseob/gromm_be_reservtaion'
     dockerHubRegistryCredential = 'docker-credential'
   }
   stages {
