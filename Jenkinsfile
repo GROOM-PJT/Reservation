@@ -30,7 +30,7 @@ pipeline {
                   slackSend (
                         channel: SLACK_CHANNEL,
                         color: SLACK_SUCCESS_COLOR,
-                        message: "==================================================================\n배포 파이프라인이 시작되었습니다.\n${GIT_COMMIT_AUTHOR} - ${GIT_COMMIT_MESSAGE}\n"
+                        message: "==================================================================\n배포 파이프라인이 시작되었습니다.\n${GIT_COMMIT_AUTHOR} - ${GIT_COMMIT_MESSAGE}\n==================================================================\n"
                     )
                 }
         }
@@ -50,12 +50,20 @@ pipeline {
             failure {
                 error 'This pipeline stops gradle Jar Build'
             }
+            success {
+                  echo 'Gradle Build Success!'
+                  slackSend (
+                        channel: SLACK_CHANNEL,
+                        color: SLACK_SUCCESS_COLOR,
+                        message: "==================================================================\nGradle Build Success!\n==================================================================\n"
+                    )
+                }
         }
     }
 
     stage('Docker Image Build') {
         steps {
-            sh "cp ./build/libs/reservation-server-0.0.1-SNAPSHOT.jar ./"
+            // sh "cp ./build/libs/reservation-server-0.0.1-SNAPSHOT.jar ./"
             sh "docker build . -t ${dockerHubRegistry}:${currentBuild.number}"
             sh "docker build . -t ${dockerHubRegistry}:latest"
         }
