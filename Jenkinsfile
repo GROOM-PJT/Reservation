@@ -89,12 +89,17 @@ pipeline {
 
     stage('Docker Image Push') {
         steps {
-            withDockerRegistry([ credentialsId: dockerHubRegistryCredential, url: "" ]) {
-                                // sh "docker push ${dockerHubRegistry}:${currentBuild.number}"
-                                // sh "docker push ${dockerHubRegistry}:latest"
-                                dockerImage.push()
-                                sleep 20 /* Wait uploading */ 
-                            }
+            // withDockerRegistry([ credentialsId: dockerHubRegistryCredential, url: "" ]) {
+            //                     // sh "docker push ${dockerHubRegistry}:${currentBuild.number}"
+            //                     // sh "docker push ${dockerHubRegistry}:latest"
+            //                     dockerImage.push()
+            //                     sleep 20 /* Wait uploading */ 
+            //                 }
+            script {
+                docker.withRegistry( '', dockerHubRegistryCredential ) {
+                    dockerImage.push()
+                }
+            }
         }
         post {
                 failure {
