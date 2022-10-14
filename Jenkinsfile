@@ -62,22 +62,23 @@ pipeline {
     }
 
     stage('Docker Image Build') {
+    agent any
         steps {
-            sh "docker build . -t ./deploy/Dockerfile ${dockerHubRegistry}:${currentBuild.number}"
-            sh "docker build . -t ./deploy/Dockerfile ${dockerHubRegistry}:latest"
+            sh "docker build . -t ${dockerHubRegistry}:${currentBuild.number} ./deploy/Dockerfile"
+            sh "docker build . -t ${dockerHubRegistry}:latest ./deploy/Dockerfile"
         }
         post {
-                failure {
-                  echo 'Docker image build failure !'
-                }
-                success {
-                  echo 'Docker image build success !'
-                  slackSend (
-                        channel: SLACK_CHANNEL,
-                        color: SLACK_SUCCESS_COLOR,
-                        message: "==================================================================\nDocker Image Build Success!\n==================================================================\n"
-                    )
-                }
+            failure {
+                echo 'Docker image build failure !'
+            }
+            success {
+                echo 'Docker image build success !'
+                slackSend (
+                    channel: SLACK_CHANNEL,
+                    color: SLACK_SUCCESS_COLOR,
+                    message: "==================================================================\nDocker Image Build Success!\n==================================================================\n"
+                )
+            }
         }
     }
 
