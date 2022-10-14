@@ -51,8 +51,8 @@ pipeline {
                 error 'This pipeline stops gradle Jar Build'
             }
             success {
-                  echo 'Gradle Build Success!'
-                  slackSend (
+                    echo 'Gradle Build Success!'
+                    slackSend (
                         channel: SLACK_CHANNEL,
                         color: SLACK_SUCCESS_COLOR,
                         message: "==================================================================\nGradle Build Success!\n==================================================================\n"
@@ -62,10 +62,8 @@ pipeline {
     }
 
     stage('Docker Image Build') {
-        steps {
-            // sh "cp ./build/libs/reservation-server-0.0.1-SNAPSHOT.jar ./"
-            sh "docker build . -t ${dockerHubRegistry}:${currentBuild.number}"
-            sh "docker build . -t ${dockerHubRegistry}:latest"
+            sh "docker build . -t ${dockerHubRegistry}:${currentBuild.number} ./deploy/Dockerfile"
+            sh "docker build . -t ${dockerHubRegistry}:latest ./deploy/Dockerfile"
         }
         post {
                 failure {
@@ -73,6 +71,11 @@ pipeline {
                 }
                 success {
                   echo 'Docker image build success !'
+                  slackSend (
+                        channel: SLACK_CHANNEL,
+                        color: SLACK_SUCCESS_COLOR,
+                        message: "==================================================================\nDocker Image Build Success!\n==================================================================\n"
+                    )
                 }
         }
     }
