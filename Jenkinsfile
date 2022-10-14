@@ -41,6 +41,7 @@ pipeline {
         steps {
             echo 'Bulid Gradle'
             dir ('.'){
+                sh "gradle wrap"
                 sh """
                 ./gradlew clean build --exclude-task test
                 """
