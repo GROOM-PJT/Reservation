@@ -41,7 +41,9 @@ pipeline {
         steps {
             echo 'Bulid Gradle'
             dir ('.'){
-                sh "./gradlew build -x test"
+                sh """
+                ./gradlew clean build --exclude-task test
+                """
             }
         }
         post {
