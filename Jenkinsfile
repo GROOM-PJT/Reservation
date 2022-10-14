@@ -64,8 +64,10 @@ pipeline {
     stage('Docker Image Build') {
     agent any
         steps {
-            sh "docker build . -t ${dockerHubRegistry}:${currentBuild.number} ./deploy/Dockerfile"
-            sh "docker build . -t ${dockerHubRegistry}:latest ./deploy/Dockerfile"
+            // sh "cp ./build/lib/*.jar ./"
+            // dockerImage = docker.build dockerHubRegistry + ":"+${currentBuild.number} 
+            sh "docker.build -t ${dockerHubRegistry}:${currentBuild.number} ./deploy/Dockerfile"
+            sh "docker.build -t ${dockerHubRegistry}:latest ./deploy/Dockerfile"
         }
         post {
             failure {
