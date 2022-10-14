@@ -1,8 +1,5 @@
 pipeline {
   agent any
-  tools {
-    maven 'M3'
-  }
   environment {
     dockerHubRegistry = 'jeeseob/groom-devOps-BE-reservation'
     dockerHubRegistryCredential = 'docker-credential'
