@@ -6,14 +6,15 @@ import java.time.LocalDateTime;
 
 /**
  * @Author : Jeeseob
- * @CreateAt : 2022/10/07
+ * @CreateAt : 2022/10/18
  */
 
 @Getter
+@Builder
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class ReservationRequest {
+public class ReservationRequsetToSend {
     private Long restaurantId;
     // 유저정보를 body에 넣을지, jwt에 넣어서 파싱할지 선택해야함.
     private String username;
@@ -27,15 +28,6 @@ public class ReservationRequest {
     // 예약 시간
     private LocalDateTime reservationTime;
 
-    public ReservationRequsetToSend toSend() {
-        return ReservationRequsetToSend.builder()
-                .restaurantId(this.restaurantId)
-                .username(this.username)
-                .numberOfReservations(this.numberOfReservations)
-                .comment(this.comment)
-                .reservationTime(this.reservationTime)
-                .createAt(LocalDateTime.now())
-                .build();
-    }
+    // 예약 신청 시간
+    private LocalDateTime createAt;
 }
-

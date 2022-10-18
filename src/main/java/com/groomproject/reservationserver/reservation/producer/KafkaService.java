@@ -1,6 +1,7 @@
 package com.groomproject.reservationserver.reservation.producer;
 
 import com.groomproject.reservationserver.reservation.dto.ReservationRequest;
+import com.groomproject.reservationserver.reservation.dto.ReservationRequsetToSend;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -19,10 +20,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class KafkaService {
     private static final String TOPIC = "reservation";
-    private final KafkaTemplate<String, ReservationRequest> kafkaTemplate;
+    private final KafkaTemplate<String, ReservationRequsetToSend> kafkaTemplate;
 
-    public void sendMessage(ReservationRequest reservationRequest) {
-        Message<ReservationRequest> message = MessageBuilder
+    public void sendMessage(ReservationRequsetToSend reservationRequest) {
+        Message<ReservationRequsetToSend> message = MessageBuilder
                 .withPayload(reservationRequest)
                 .setHeader(KafkaHeaders.TOPIC, TOPIC)
                 .build();
