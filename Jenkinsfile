@@ -10,7 +10,7 @@ pipeline {
   stages {
     stage('Checkout Application Git Branch') {
         when {
-            expression { return params.current_status == "closed" && params.merged == true }
+            expression { return params.current_status == "closed" && params.merged == true && params.repository == "GROOM-PJT/Reservation"}
         }
         steps {
            script {
@@ -44,7 +44,7 @@ pipeline {
     stage('get git secret'){
     agent any
         when {
-                expression { return params.current_status == "closed" && params.merged == true }
+            expression { return params.current_status == "closed" && params.merged == true && params.repository == "GROOM-PJT/Reservation"}
         }
         steps {
             sh ("gpg --batch --import $gpg_secret")
@@ -74,7 +74,7 @@ pipeline {
    stage('Gradle Jar Build') {
     agent any
         when {
-                    expression { return params.current_status == "closed" && params.merged == true }
+            expression { return params.current_status == "closed" && params.merged == true && params.repository == "GROOM-PJT/Reservation"}
             }
         steps {
             echo 'Bulid Gradle'
@@ -109,7 +109,7 @@ pipeline {
     stage('Docker Image Build') {
     agent any
         when {
-                    expression { return params.current_status == "closed" && params.merged == true }
+            expression { return params.current_status == "closed" && params.merged == true && params.repository == "GROOM-PJT/Reservation"}
             }
         steps {
             sh "id"
@@ -138,7 +138,7 @@ pipeline {
 
     stage('Docker Image Push') {
         when {
-                    expression { return params.current_status == "closed" && params.merged == true }
+             expression { return params.current_status == "closed" && params.merged == true && params.repository == "GROOM-PJT/Reservation"}
             }
         steps {
             sh ("echo \\$DOCKERHUB_CREDENTIALS_PSW | docker login -u \\$DOCKERHUB_CREDENTIALS_USR --password-stdin")
@@ -173,7 +173,7 @@ pipeline {
 
     stage('GitOps Repository Update Success ') {
         when {
-                    expression { return params.current_status == "closed" && params.merged == true }
+             expression { return params.current_status == "closed" && params.merged == true && params.repository == "GROOM-PJT/Reservation"}
             }
         steps {
             git credentialsId: 'github-credential',
