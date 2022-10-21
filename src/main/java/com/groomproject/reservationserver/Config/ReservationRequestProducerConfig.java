@@ -1,6 +1,7 @@
 package com.groomproject.reservationserver.Config;
 
 import com.groomproject.reservationserver.reservation.dto.ReservationRequest;
+import com.groomproject.reservationserver.reservation.dto.ReservationRequsetToSend;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -35,12 +36,12 @@ public class ReservationRequestProducerConfig {
     }
 
     @Bean
-    public ProducerFactory<String, ReservationRequest> reservationRequestProducerFactory() {
+    public ProducerFactory<String, ReservationRequsetToSend> reservationRequestProducerFactory() {
         return new DefaultKafkaProducerFactory<>(producerConfigs());
     }
 
     @Bean
-    public KafkaTemplate<String, ReservationRequest> reservationRequestKafkaTemplate() {
+    public KafkaTemplate<String, ReservationRequsetToSend> reservationRequestKafkaTemplate() {
         return new KafkaTemplate<>(reservationRequestProducerFactory());
     }
 }

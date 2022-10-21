@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 public class ReservationRequest {
     private Long restaurantId;
     // 유저정보를 body에 넣을지, jwt에 넣어서 파싱할지 선택해야함.
-    //private Long memberId;
+    private String username;
 
     // 인원
     private int numberOfReservations;
@@ -26,5 +26,16 @@ public class ReservationRequest {
 
     // 예약 시간
     private LocalDateTime reservationTime;
+
+    public ReservationRequsetToSend toSend() {
+        return ReservationRequsetToSend.builder()
+                .restaurantId(this.restaurantId)
+                .username(this.username)
+                .numberOfReservations(this.numberOfReservations)
+                .comment(this.comment)
+                .reservationTime(this.reservationTime)
+                .createAt(LocalDateTime.now())
+                .build();
+    }
 }
 

@@ -1,9 +1,9 @@
 server:
-  port: 28080
+  port: 9090
 spring:
   kafka:
     producer:
-      bootstrap-servers: localhost:9092
+      bootstrap-servers: 43.200.239.121:9092
 topic:
   reservation:
     name: reservation
