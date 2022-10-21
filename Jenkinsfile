@@ -9,10 +9,12 @@ pipeline {
   }
   stages {
     stage('Checkout params') {
-        script{
-          cat params
-          cat params.current_status
-          cat params.merged
+        steps{
+            script{
+              cat params
+              cat params.current_status
+              cat params.merged
+            }
         }
     }
     stage('Checkout Application Git Branch') {
