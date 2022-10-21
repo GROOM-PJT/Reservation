@@ -8,15 +8,6 @@ pipeline {
     gpg_passphrase = credentials("gpg-passphrase")
   }
   stages {
-    stage('Checkout params') {
-        steps{
-            script{
-              cat params
-              cat params.current_status
-              cat params.merged
-            }
-        }
-    }
     stage('Checkout Application Git Branch') {
         when {
             expression { return params.current_status == "closed" && params.merged == true }
