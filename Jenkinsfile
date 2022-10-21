@@ -9,6 +9,7 @@ pipeline {
   }
   stages {
     stage('Checkout Application Git Branch') {
+    agent any
         when {
             expression { return params.current_status == "closed" && params.merged == true && params.repository == "GROOM-PJT/Reservation"}
         }
@@ -42,7 +43,6 @@ pipeline {
     }
 
     stage('get git secret'){
-    agent any
         when {
             expression { return params.current_status == "closed" && params.merged == true && params.repository == "GROOM-PJT/Reservation"}
         }
@@ -72,7 +72,6 @@ pipeline {
     }
 
    stage('Gradle Jar Build') {
-    agent any
         when {
             expression { return params.current_status == "closed" && params.merged == true && params.repository == "GROOM-PJT/Reservation"}
             }
@@ -107,7 +106,6 @@ pipeline {
     }
 
     stage('Docker Image Build') {
-    agent any
         when {
             expression { return params.current_status == "closed" && params.merged == true && params.repository == "GROOM-PJT/Reservation"}
             }
