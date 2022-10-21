@@ -8,7 +8,7 @@ pipeline {
     gpg_passphrase = credentials("gpg-passphrase")
   }
   stages {
-    stage('Checkout Application Git Branch') {
+    stage('Checkout params') {
         script{
           cat params
           cat params.current_status
