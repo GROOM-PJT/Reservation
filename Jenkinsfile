@@ -9,9 +9,6 @@ pipeline {
   }
   stages {
     stage('Checkout Application Git Branch') {
-        when {
-            expression { return params.current_status == "closed" && params.merged == true }
-        }
         steps {
            script {
                     SLACK_CHANNEL = "jenkins"
