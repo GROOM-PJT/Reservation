@@ -11,6 +11,7 @@ pipeline {
     gpg_passphrase = credentials("gpg-passphrase")
   }
   stages {
+    agent any
     stage('Checkout Application Git Branch') {
         when {
             expression { return params.current_status == "closed" && params.merged == true && params.repository == "GROOM-PJT/Reservation"}
