@@ -1,6 +1,5 @@
 package com.groomproject.reservationserver.Config;
 
-import com.groomproject.reservationserver.reservation.dto.ReservationRequest;
 import com.groomproject.reservationserver.reservation.dto.ReservationRequsetToSend;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
