@@ -6,3 +6,5 @@ spring:
       matching-strategy: ant_path_matcher
   main:
     allow-bean-definition-overriding: true
+server:
+  port: 9090
