@@ -22,7 +22,7 @@ import java.util.Map;
 @Configuration
 public class ReservationRequestProducerConfig {
 
-    @Value(value = "${spring.kafka.producer.bootstrap-servers}")
+    @Value("${spring.kafka.producer.bootstrap-servers}")
     private String servers;
 
     @Bean

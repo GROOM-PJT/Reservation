@@ -18,10 +18,10 @@ import java.util.Map;
 @Configuration
 public class KafkaTopicConfig {
 
-    @Value(value = "${spring.kafka.producer.bootstrap-servers}")
+    @Value("${spring.kafka.producer.bootstrap-servers}")
     private String bootstrapAddress;
 
-    @Value(value = "${topic.reservation.name}")
+    @Value("${topic.reservation.name}")
     private String topicName;
 
     @Bean
