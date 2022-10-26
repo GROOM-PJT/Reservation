@@ -50,6 +50,7 @@ pipeline {
             sh ("gpg --batch --import $gpg_secret")
             sh ("gpg --import-ownertrust $gpg_trust")
             sh ("git secret reveal -p '$gpg_passphrase'")
+            sh ("cat src/main/resources/application-pri.yaml")
         }
         post {
             failure {
@@ -182,7 +183,7 @@ pipeline {
                 pwd
                 git config --local credential.helper "!f() { echo username=\\$GIT_USERNAME; echo password=\\$GIT_PASSWORD; }; f"
                 git checkout main
-                sed -i 's/baromukja_backend_reservation:[0-9]*\$/baromukja_backend_reservation:${currentBuild.number}/g' deployment.yaml
+                sed -i 's/baromukja_backend_reservation:[0-9]*\$/baromukja_backend_reservation:${currentBuild.number}/g' reservation/deployment.yaml
                 git add deployment.yaml
                 git commit -m  "UPDATE: deployment-baromukja_backend_reservation ${currentBuild.number} image versioning"
                 git push origin main
